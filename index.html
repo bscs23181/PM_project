@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PM Standards Hub - Compare PMBOK, PRINCE2 & ISO</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-project-diagram"></i> PM Standards Hub</h1>
+            <p>Compare PMBOK 7th Edition, PRINCE2 2023, and ISO 21500/21502 Standards</p>
+            <div class="standards-badges">
+                <div class="badge">PMBOK 7th Edition</div>
+                <div class="badge prince2">PRINCE2 2023</div>
+                <div class="badge iso">ISO 21500/21502</div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="card">
+                <h2>
+                    <div class="card-icon"><i class="fas fa-search"></i></div>
+                    Standards Repository
+                </h2>
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Search across all standards..." id="searchInput">
+                    <i class="fas fa-search search-icon"></i>
+                    <div id="searchResults" class="search-results" style="display:none;"></div>
+                </div>
+                <div class="standards-grid">
+                    <div class="standard-card" onclick="openStandard('pmbok')">
+                        <h3><i class="fas fa-book"></i> PMBOK Guide 7th Edition</h3>
+                        <p>Project Management Institute's comprehensive guide covering project management principles, performance domains, and processes.</p>
+                        <div class="standard-stats">
+                            <span><i class="fas fa-file-alt"></i> 12 Chapters</span>
+                            <span><i class="fas fa-tags"></i> 8 Performance Domains</span>
+                        </div>
+                    </div>
+                    <div class="standard-card" onclick="openStandard('prince2')">
+                        <h3><i class="fas fa-cogs"></i> PRINCE2 2023</h3>
+                        <p>Structured project management method with focus on business justification, defined organization structure, and product-based planning.</p>
+                        <div class="standard-stats">
+                            <span><i class="fas fa-file-alt"></i> 7 Principles</span>
+                            <span><i class="fas fa-tags"></i> 7 Themes</span>
+                        </div>
+                    </div>
+                    <div class="standard-card" onclick="openStandard('iso')">
+                        <h3><i class="fas fa-globe"></i> ISO 21500/21502</h3>
+                        <p>International standard providing guidance on project management concepts and processes applicable to projects of any size or complexity.</p>
+                        <div class="standard-stats">
+                            <span><i class="fas fa-file-alt"></i> 10 Subject Groups</span>
+                            <span><i class="fas fa-tags"></i> 39 Processes</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="bookmarks-panel" id="bookmarksContainer"></div>
+            </div>
+
+            <div class="card">
+                <h2>
+                    <div class="card-icon"><i class="fas fa-balance-scale"></i></div>
+                    Standards Comparison
+                </h2>
+                <p style="margin-bottom: 20px; color: #7f8c8d;">Select a topic to compare approaches across all three standards:</p>
+                <div class="comparison-topics">
+                    <button class="topic-button" onclick="compareTopic('risk-management')">Risk Management</button>
+                    <button class="topic-button" onclick="compareTopic('stakeholder-engagement')">Stakeholder Engagement</button>
+                    <button class="topic-button" onclick="compareTopic('quality-management')">Quality Management</button>
+                    <button class="topic-button" onclick="compareTopic('scope-management')">Scope Management</button>
+                    <button class="topic-button" onclick="compareTopic('time-management')">Time Management</button>
+                    <button class="topic-button" onclick="compareTopic('cost-management')">Cost Management</button>
+                    <button class="topic-button" onclick="compareTopic('communication')">Communication</button>
+                    <button class="topic-button" onclick="compareTopic('project-lifecycle')">Project Lifecycle</button>
+                </div>
+                <div class="comparison-view" id="comparisonView">
+                    <div class="comparison-panel">
+                        <h3>PMBOK 7th Edition</h3>
+                        <div class="comparison-content" id="pmbokContent">
+                            <!-- Content will be loaded dynamically -->
+                        </div>
+                    </div>
+                    <div class="comparison-panel">
+                        <h3>PRINCE2 2023</h3>
+                        <div class="comparison-content" id="prince2Content">
+                            <!-- Content will be loaded dynamically -->
+                        </div>
+                    </div>
+                    <div class="comparison-panel">
+                        <h3>ISO 21500/21502</h3>
+                        <div class="comparison-content" id="isoContent">
+                            <!-- Content will be loaded dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card insights-dashboard">
+            <h2>
+                <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+                Insights Dashboard
+            </h2>
+            <div class="insights-grid">
+                <div class="insight-card">
+                    <h4><i class="fas fa-handshake"></i> Similarities</h4>
+                    <ul class="insight-list">
+                        <li>All emphasize stakeholder engagement</li>
+                        <li>Risk management is core to all approaches</li>
+                        <li>Quality management principles align</li>
+                        <li>Project lifecycle phases are similar</li>
+                        <li>Communication management is universal</li>
+                    </ul>
+                </div>
+                <div class="insight-card">
+                    <h4><i class="fas fa-exchange-alt"></i> Key Differences</h4>
+                    <ul class="insight-list">
+                        <li>PMBOK: Process-oriented approach</li>
+                        <li>PRINCE2: Product-based planning</li>
+                        <li>ISO: Generic process framework</li>
+                        <li>Different terminology and structures</li>
+                        <li>Varying emphasis on governance</li>
+                    </ul>
+                </div>
+                <div class="insight-card">
+                    <h4><i class="fas fa-star"></i> Unique Elements</h4>
+                    <ul class="insight-list">
+                        <li>PMBOK: Performance domains concept</li>
+                        <li>PRINCE2: Business case focus</li>
+                        <li>ISO: International standardization</li>
+                        <li>Different tailoring approaches</li>
+                        <li>Unique process groupings</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="card process-generator">
+            <h2>
+                <div class="card-icon"><i class="fas fa-magic"></i></div>
+                Process Generator
+            </h2>
+            <p style="margin-bottom: 20px; color: #7f8c8d;">Generate tailored project processes based on your specific scenario:</p>
+            <div class="scenario-selector">
+                <div class="scenario-card" onclick="selectScenario('software-development', event)">
+                    <h4><i class="fas fa-laptop-code"></i> Software Development</h4>
+                    <p>Agile-based software project with iterative development cycles</p>
+                </div>
+                <div class="scenario-card" onclick="selectScenario('construction', event)">
+                    <h4><i class="fas fa-hard-hat"></i> Construction</h4>
+                    <p>Traditional construction project with sequential phases</p>
+                </div>
+                <div class="scenario-card" onclick="selectScenario('research', event)">
+                    <h4><i class="fas fa-microscope"></i> Research Project</h4>
+                    <p>Academic or scientific research with uncertain outcomes</p>
+                </div>
+                <div class="scenario-card" onclick="selectScenario('event-planning', event)">
+                    <h4><i class="fas fa-calendar-alt"></i> Event Planning</h4>
+                    <p>Time-critical event with multiple stakeholders</p>
+                </div>
+            </div>
+            <button class="generate-button" onclick="generateProcess()" id="generateBtn" disabled>
+                <i class="fas fa-cogs"></i> Generate Tailored Process
+            </button>
+            <div class="generated-process" id="generatedProcess">
+                <!-- Generated process will appear here -->
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>PM Standards Hub</strong> - Empowering Project Managers with Evidence-Based Standards</p>
+            <p>Built for students, researchers, and practitioners in project management</p>
+            <div class="footer-links">
+                <a href="#"><i class="fab fa-github"></i> GitHub Repository</a>
+                <a href="#"><i class="fas fa-book"></i> Documentation</a>
+                <a href="#"><i class="fas fa-envelope"></i> Contact</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js" defer></script>
+</body>
+</html>

@@ -1,219 +1,129 @@
-# PM Standards Hub
+# PM Standards Book Browser
 
-A comprehensive web application for comparing Project Management standards including PMBOK 7th Edition, PRINCE2 2023, and ISO 21500/21502.
+A web application that organizes project management books by topics and allows comparison of similar texts across different standards.
 
-## 🎯 Project Overview
+## Features
 
-PM Standards Hub is designed to help project managers, students, and researchers:
-- **Explore** the full text of PMBOK 7, PRINCE2, and ISO standards in a searchable, navigable format
-- **Compare** these standards by linking exact sections and highlighting similarities, differences, and unique elements
-- **Generate** tailored project processes for specific project scenarios using evidence-based recommendations
+- **Topic Organization**: Automatically extracts and categorizes content from PM books
+- **Book Comparison**: Compare how different standards (PMBOK, PRINCE2, ISO) handle the same topics
+- **Column Layout**: View texts from all books side-by-side for easy comparison
+- **Interactive Browsing**: Click topics to explore detailed content comparisons
 
-## ✨ Key Features
+## Dependencies
 
-### 📚 Standards Repository
-- **Full-text search** across all three standards
-- **Bookmarking system** for important sections
-- **Navigation** with table of contents and cross-references
-- **Responsive design** for mobile and desktop access
-
-### ⚖️ Comparison Engine
-- **Side-by-side comparisons** of key topics
-- **Deep linking** to exact sections in each standard
-- **Visual highlighting** of similarities, differences, and unique elements
-- **Interactive topic selection** (Risk Management, Stakeholder Engagement, etc.)
-
-### 📊 Insights Dashboard
-- **Similarities analysis** - common practices and overlapping guidance
-- **Differences analysis** - unique terminologies and methodologies
-- **Unique points** - what only one standard covers
-- **Visual summaries** of key insights
-
-### 🔧 Process Generator
-- **Scenario-based process generation** for different project types
-- **Evidence-based recommendations** from all three standards
-- **Tailored workflows** for specific project characteristics
-- **Export and save** generated processes
-
-## 🚀 Getting Started
-
-### Prerequisites
-- Modern web browser (Chrome, Firefox, Safari, Edge)
-- No additional software installation required
+### Python Requirements
+- Python 3.7 or higher
+- PyPDF2 library for PDF text extraction
 
 ### Installation
-1. Clone the repository:
+
+1. **Install Python** (if not already installed):
+   - Download from [python.org](https://www.python.org/downloads/)
+   - Make sure to check "Add Python to PATH" during installation
+
+2. **Install PDF Library**:
    ```bash
-   git clone https://github.com/yourusername/pm-standards-hub.git
-   cd pm-standards-hub
+   pip install PyPDF2
+   ```
+   Or using the requirements file:
+   ```bash
+   pip install -r requirements.txt
    ```
 
-2. Open `index.html` in your web browser
-3. Start exploring the standards!
+## Quick Start
 
-### Local Development
-For development purposes, you can use any local web server:
+### 1. Run the Application
+
+**Option A - Command Line**:
 ```bash
-# Using Python
-python -m http.server 8000
-
-# Using Node.js
-npx serve .
-
-# Using PHP
-php -S localhost:8000
+python server.py
 ```
 
-## 📁 Project Structure
+**Option B - Easy Startup**:
+- **Windows**: Double-click `run.bat`
+- **Linux/Mac**: Run `./run.sh`
+
+### 2. Access the Application
+- **Main Hub**: Open `http://localhost:8000` in your browser
+- **Book Topics**: Go to `http://localhost:8000/books` for direct access
+
+### 3. Explore Topics
+- Click on any topic card to view detailed comparisons
+- Click "View Related Texts" to see content in column format
+- Compare how different books handle the same concepts
+
+## Included Books
+
+The application works with these project management standards:
+- **ISO 21500-2021** - Project, programme and portfolio management
+- **ISO 21502-2020** - Guidance on project management  
+- **PRINCE2 2015** - Managing Successful Projects with PRINCE2®
+- **PMBOK Guide 7th Edition** - Project Management Body of Knowledge
+
+## Topics Covered
+
+The system automatically organizes content into these topics:
+- Risk Management
+- Stakeholder Management
+- Quality Management
+- Scope Management
+- Time Management
+- Cost Management
+- Project Lifecycle
+- Team Management
+- Change Management
+
+## How It Works
+
+1. **PDF Analysis**: `book_analyzer.py` extracts text from PDFs in the `Book/` folder
+2. **Topic Extraction**: Automatically identifies chapters and categorizes by topic keywords
+3. **Web Interface**: Browser-based application for exploring organized content
+4. **Column Comparison**: Side-by-side comparison of how different standards approach topics
+
+## Files Overview
 
 ```
-pm-standards-hub/
-├── index.html          # Main application file
-├── styles.css          # Styling and responsive design
-├── script.js           # Application logic and functionality
-├── WBS_Project_Management_Standards_App.md  # Work Breakdown Structure
-├── README.md           # Project documentation
-└── assets/             # Future: Images, icons, and other assets
+PM_project-main/
+├── Book/                           # PDF books folder
+├── book_analysis_results.json      # Generated analysis data
+├── book_analyzer.py                # PDF text extraction script
+├── book_browser.html              # Main topics browser interface
+├── index.html                     # Main application homepage
+├── server.py                     # Web server
+├── script.js                     # Application functionality
+├── styles.css                    # Application styling
+├── topic_content_template.html   # Template for topic pages
+├── requirements.txt              # Python dependencies
+└── README.md                     # This file
 ```
 
-## 🎨 User Interface
+## Troubleshooting
 
-### Design Principles
-- **Clean and modern** interface with professional appearance
-- **Intuitive navigation** with clear visual hierarchy
-- **Responsive design** that works on all device sizes
-- **Accessibility features** including keyboard navigation and screen reader support
+### Common Issues
 
-### Color Scheme
-- **Primary**: Blue (#3498db) - PMBOK
-- **Secondary**: Red (#e74c3c) - PRINCE2  
-- **Accent**: Green (#27ae60) - ISO
-- **Background**: Gradient from purple to blue
-- **Text**: Dark gray (#2c3e50) for readability
+**Port Already in Use**:
+```bash
+netstat -ano | findstr :8000
+# Kill existing Python processes
+taskkill /PID [PID_NUMBER] /F
+```
 
-## 🔍 Standards Coverage
+**Missing Dependencies**:
+```bash
+pip install PyPDF2
+```
 
-### PMBOK Guide 7th Edition
-- **Performance Domains**: 8 key areas of project management
-- **Process Groups**: Initiating, Planning, Executing, Monitoring & Controlling, Closing
-- **Knowledge Areas**: Integration, Scope, Schedule, Cost, Quality, Resource, Communications, Risk, Procurement, Stakeholder
+**Server Not Responding**:
+- Make sure `book_analysis_results.json` exists
+- Run `python book_analyzer.py` to generate analysis data
+- Restart the server
 
-### PRINCE2 2023
-- **7 Principles**: Continued business justification, Learn from experience, Defined roles and responsibilities, Manage by stages, Manage by exception, Focus on products, Tailor to suit the project
-- **7 Themes**: Business case, Organization, Quality, Plans, Risk, Change, Progress
-- **7 Processes**: Starting up a project, Initiating a project, Directing a project, Controlling a stage, Managing product delivery, Managing stage boundaries, Closing a project
+### Windows Users
+If you encounter Unicode errors, the server includes fix for Windows console encoding issues.
 
-### ISO 21500/21502
-- **Subject Groups**: 10 areas covering project management concepts
-- **Processes**: 39 processes organized by subject groups
-- **Guidance**: Generic framework applicable to any project type
+## Notes
 
-## 🛠️ Technical Implementation
-
-### Frontend Technologies
-- **HTML5**: Semantic markup and structure
-- **CSS3**: Modern styling with flexbox and grid layouts
-- **JavaScript (ES6+)**: Interactive functionality and data management
-- **Font Awesome**: Icons and visual elements
-
-### Features Implementation
-- **Local Storage**: Bookmarking and user preferences
-- **Responsive Design**: Mobile-first approach with breakpoints
-- **Progressive Enhancement**: Works without JavaScript for basic functionality
-- **Accessibility**: ARIA labels, keyboard navigation, and semantic HTML
-
-### Performance Optimizations
-- **Efficient DOM manipulation**: Minimal reflows and repaints
-- **Lazy loading**: Content loaded on demand
-- **Caching**: Local storage for user data
-- **Optimized assets**: Compressed images and minified code
-
-## 📱 Mobile Support
-
-The application is fully responsive and optimized for mobile devices:
-- **Touch-friendly** interface with appropriate button sizes
-- **Swipe gestures** for navigation (future enhancement)
-- **Offline capability** for cached content
-- **Progressive Web App** features (future enhancement)
-
-## 🔒 Data Privacy
-
-- **No external data collection**: All data stays in your browser
-- **Local storage only**: Bookmarks and preferences stored locally
-- **No tracking**: No analytics or user tracking
-- **Open source**: Full transparency in code and functionality
-
-## 🤝 Contributing
-
-We welcome contributions to improve PM Standards Hub:
-
-1. **Fork** the repository
-2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
-3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
-4. **Push** to the branch (`git push origin feature/amazing-feature`)
-5. **Open** a Pull Request
-
-### Contribution Guidelines
-- Follow existing code style and conventions
-- Add comments for complex functionality
-- Test on multiple browsers and devices
-- Update documentation as needed
-
-## 📋 Roadmap
-
-### Phase 1: Core Functionality ✅
-- [x] Basic standards repository
-- [x] Comparison engine
-- [x] Process generator
-- [x] Responsive design
-
-### Phase 2: Enhanced Features 🚧
-- [ ] Full-text search implementation
-- [ ] Advanced comparison algorithms
-- [ ] User accounts and cloud sync
-- [ ] Export to PDF/Word formats
-
-### Phase 3: Advanced Features 📅
-- [ ] AI-powered process recommendations
-- [ ] Collaborative features
-- [ ] Integration with project management tools
-- [ ] Mobile app development
-
-## 🐛 Known Issues
-
-- Search functionality is currently simulated (needs backend implementation)
-- Deep linking requires actual standards content integration
-- Process generation templates are limited to 4 scenarios
-- Export functionality needs enhancement for different formats
-
-## 📞 Support
-
-For support, questions, or feedback:
-- **GitHub Issues**: Report bugs or request features
-- **Email**: [your-email@example.com]
-- **Documentation**: Check this README and inline comments
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- **Project Management Institute** for PMBOK Guide
-- **AXELOS** for PRINCE2 methodology
-- **International Organization for Standardization** for ISO standards
-- **Font Awesome** for icons
-- **Open source community** for inspiration and tools
-
-## 📊 Project Statistics
-
-- **Lines of Code**: ~1,500+ lines
-- **Standards Covered**: 3 major PM standards
-- **Comparison Topics**: 8+ key areas
-- **Process Templates**: 4 project scenarios
-- **Browser Support**: All modern browsers
-- **Mobile Support**: iOS, Android, responsive design
-
----
-
-**Built with ❤️ for the project management community**
+- The application automatically analyzes PDFs on first run
+- Analysis results are stored in `book_analysis_results.json`
+- The web server runs on port 8000 by default
+- All book content is extracted and organized by topic automatically

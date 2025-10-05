@@ -39,7 +39,8 @@ let appState = {
     selectedScenario: null,
     currentComparisonTopic: null,
     searchResults: [],
-    bookmarks: JSON.parse(localStorage.getItem('pmStandardsBookmarks')) || []
+    bookmarks: JSON.parse(localStorage.getItem('pmStandardsBookmarks')) || [],
+    darkMode: localStorage.getItem('darkMode') === 'true' || false
 };
 
 // Comparison data structure
@@ -57,8 +58,8 @@ const comparisonData = {
                     <li>Risk monitoring and control</li>
                 </ul>
                 <p><strong>Key Focus:</strong> Proactive risk management throughout project lifecycle</p>
-                <div class="deep-link" onclick="navigateToSection('pmbok', 'risk-management')">
-                    <i class="fas fa-external-link-alt"></i> View Full Section
+                <div class="deep-link" onclick="window.open('/topic/risk_management', '_blank')">
+                    <i class="fas fa-external-link-alt"></i> View Related Texts
                 </div>
             `
         },
@@ -74,8 +75,8 @@ const comparisonData = {
                     <li>Risk management strategy</li>
                 </ul>
                 <p><strong>Key Focus:</strong> Business-driven risk management with clear governance</p>
-                <div class="deep-link" onclick="navigateToSection('prince2', 'risk-theme')">
-                    <i class="fas fa-external-link-alt"></i> View Full Section
+                <div class="deep-link" onclick="window.open('/topic/risk_management', '_blank')">
+                    <i class="fas fa-external-link-alt"></i> View Related Texts
                 </div>
             `
         },
@@ -91,8 +92,8 @@ const comparisonData = {
                     <li>Risk monitoring and control</li>
                 </ul>
                 <p><strong>Key Focus:</strong> Generic framework applicable to any project type</p>
-                <div class="deep-link" onclick="navigateToSection('iso', 'risk-processes')">
-                    <i class="fas fa-external-link-alt"></i> View Full Section
+                <div class="deep-link" onclick="window.open('/topic/risk_management', '_blank')">
+                    <i class="fas fa-external-link-alt"></i> View Related Texts
                 </div>
             `
         }
@@ -110,8 +111,8 @@ const comparisonData = {
                     <li>Stakeholder relationship management</li>
                 </ul>
                 <p><strong>Key Focus:</strong> Continuous stakeholder engagement and satisfaction</p>
-                <div class="deep-link" onclick="navigateToSection('pmbok', 'stakeholder-engagement')">
-                    <i class="fas fa-external-link-alt"></i> View Full Section
+                <div class="deep-link" onclick="window.open('/topic/stakeholder_management', '_blank')">
+                    <i class="fas fa-external-link-alt"></i> View Related Texts
                 </div>
             `
         },
@@ -127,8 +128,8 @@ const comparisonData = {
                     <li>Stakeholder analysis</li>
                 </ul>
                 <p><strong>Key Focus:</strong> Clear governance structure and accountability</p>
-                <div class="deep-link" onclick="navigateToSection('prince2', 'organization-theme')">
-                    <i class="fas fa-external-link-alt"></i> View Full Section
+                <div class="deep-link" onclick="window.open('/topic/stakeholder_management', '_blank')">
+                    <i class="fas fa-external-link-alt"></i> View Related Texts
                 </div>
             `
         },
@@ -144,8 +145,8 @@ const comparisonData = {
                     <li>Stakeholder communication</li>
                 </ul>
                 <p><strong>Key Focus:</strong> Systematic stakeholder management processes</p>
-                <div class="deep-link" onclick="navigateToSection('iso', 'stakeholder-processes')">
-                    <i class="fas fa-external-link-alt"></i> View Full Section
+                <div class="deep-link" onclick="window.open('/topic/stakeholder_management', '_blank')">
+                    <i class="fas fa-external-link-alt"></i> View Related Texts
                 </div>
             `
         }
@@ -419,8 +420,8 @@ function compareTopic(topic) {
                 <li>Unique elements of each standard</li>
                 <li>Deep links to specific sections</li>
             </ul>
-            <div class="deep-link" onclick="navigateToSection('${topic}', 'general')">
-                <i class="fas fa-external-link-alt"></i> View Related Sections
+            <div class="deep-link" onclick="window.open('/topic/${topic.replace('-', '_')}', '_blank')">
+                <i class="fas fa-external-link-alt"></i> View Related Texts
             </div>
         `;
         document.getElementById('pmbokContent').innerHTML = defaultContent;
@@ -712,6 +713,52 @@ function initializeApp() {
     setTimeout(() => {
         showNotification('Welcome to PM Standards Hub! Use Ctrl+K to search quickly.', 'info');
     }, 1000);
+    
+    // Initialize dark mode
+    initializeDarkMode();
+}
+
+// Dark Mode Functions
+function initializeDarkMode() {
+    // Apply saved theme on page load
+    if (appState.darkMode) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        updateThemeToggleIcon(true);
+    }
+}
+
+function toggleTheme() {
+    appState.darkMode = !appState.darkMode;
+    
+    if (appState.darkMode) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('darkMode', 'true');
+    } else {
+        document.documentElement.removeAttribute('data-theme');
+        localStorage.setItem('darkMode', 'false');
+    }
+    
+    updateThemeToggleIcon(appState.darkMode);
+    
+    // Show notification
+    const mode = appState.darkMode ? 'Dark' : 'Light';
+    showNotification(`${mode} mode activated`, 'info');
+}
+
+function updateThemeToggleIcon(isDark) {
+    const toggle = document.querySelector('.theme-toggle');
+    if (toggle) {
+        const icon = toggle.querySelector('i');
+        const text = toggle.querySelector('span');
+        
+        if (isDark) {
+            icon.className = 'fas fa-sun';
+            text.textContent = 'Light Mode';
+        } else {
+            icon.className = 'fas fa-moon';
+            text.textContent = 'Dark Mode';
+        }
+    }
 }
 
 // Event listeners
@@ -727,3 +774,4 @@ window.exportProcess = exportProcess;
 window.saveProcessTemplate = saveProcessTemplate;
 window.removeBookmark = removeBookmark;
 window.onResultClick = onResultClick;
+window.toggleTheme = toggleTheme;

@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PM Standards Book Browser - Organized by Topics</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            /* Modern Color Palette */
+            --primary-color: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #3b82f6;
+            --secondary-color: #7c3aed;
+            --secondary-dark: #6d28d9;
+            --accent-color: #06b6d4;
+            --accent-dark: #0891b2;
+            
+            /* Neutral Colors */
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            --text-light: #94a3b8;
+            
+            /* Background Colors */
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --bg-glass: rgba(255, 255, 255, 0.8);
+            
+            /* Border Colors */
+            --border-light: #e2e8f0;
+            --border-medium: #cbd5e1;
+            --border-dark: #94a3b8;
+            
+            /* Status Colors */
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+            --info-color: #3b82f6;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            
+            /* Spacing */
+            --space-xs: 0.25rem;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            
+            /* Border Radius */
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-2xl: 1.5rem;
+            
+            /* Transitions */
+            --transition-fast: 150ms ease-in-out;
+            --transition-normal: 250ms ease-in-out;
+            --transition-slow: 350ms ease-in-out;
+        }
+        
+        body {
+            font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            margin: 0;
+            padding: var(--space-xl);
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 50%, #cbd5e1 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-weight: 400;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--bg-glass);
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-2xl);
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-light);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: var(--space-2xl);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.1"/><circle cx="10" cy="60" r="0.5" fill="white" opacity="0.1"/><circle cx="90" cy="40" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header p {
+            margin: var(--space-md) 0 0 0;
+            opacity: 0.9;
+            font-size: 1.125rem;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .topic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: var(--space-lg);
+            padding: var(--space-2xl);
+        }
+        
+        .topic-card {
+            background: var(--bg-primary);
+            border-radius: var(--radius-xl);
+            padding: var(--space-xl);
+            border-left: 4px solid var(--primary-color);
+            transition: all var(--transition-normal);
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-light);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .topic-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transform: scaleX(0);
+            transition: transform var(--transition-normal);
+        }
+        
+        .topic-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-2xl);
+            border-color: var(--primary-light);
+        }
+        
+        .topic-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .topic-card h3 {
+            margin: 0 0 var(--space-lg) 0;
+            color: var(--text-primary);
+            font-size: 1.375rem;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+        }
+        
+        .topic-summary {
+            color: var(--text-secondary);
+            margin-bottom: var(--space-lg);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+        
+        .topic-stats {
+            display: flex;
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
+        }
+        
+        .stat-item {
+            background: var(--bg-secondary);
+            padding: var(--space-sm) var(--space-md);
+            border-radius: var(--radius-lg);
+            font-size: 0.9rem;
+            color: var(--primary-color);
+            font-weight: 600;
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .books-list {
+            margin-top: var(--space-lg);
+        }
+        
+        .book-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(59, 130, 246, 0.1));
+            color: var(--primary-color);
+            padding: var(--space-sm) var(--space-md);
+            border-radius: var(--radius-lg);
+            font-size: 0.85rem;
+            margin: var(--space-xs);
+            border: 1px solid rgba(37, 99, 235, 0.2);
+            font-weight: 600;
+            transition: all var(--transition-normal);
+        }
+        
+        .book-tag:hover {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.2), rgba(59, 130, 246, 0.2));
+            transform: translateY(-1px);
+        }
+        
+        .excerpt-preview {
+            background: var(--bg-secondary);
+            padding: var(--space-lg);
+            border-radius: var(--radius-lg);
+            margin-top: var(--space-lg);
+            border: 1px solid var(--border-light);
+            max-height: 120px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .excerpt-text {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: var(--space-md);
+            font-weight: 500;
+        }
+        
+        .excerpt-source {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-style: italic;
+            font-weight: 600;
+        }
+        
+        .view-all-link {
+            display: inline-block;
+            margin-top: var(--space-lg);
+            padding: var(--space-md) var(--space-xl);
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            text-decoration: none;
+            border-radius: var(--radius-lg);
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all var(--transition-normal);
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .view-all-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left var(--transition-slow);
+        }
+        
+        .view-all-link:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .view-all-link:hover::before {
+            left: 100%;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: var(--space-2xl);
+            color: var(--text-muted);
+            font-size: 1.125rem;
+            font-weight: 500;
+        }
+        
+        .error {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.1));
+            color: var(--error-color);
+            padding: var(--space-xl);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            margin: var(--space-xl);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            font-weight: 600;
+        }
+        
+        .footer {
+            background: var(--bg-secondary);
+            padding: var(--space-xl);
+            text-align: center;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border-light);
+            font-weight: 500;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: var(--space-md);
+            }
+            
+            .topic-grid {
+                grid-template-columns: 1fr;
+                padding: var(--space-lg);
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .header p {
+                font-size: 1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: var(--space-sm);
+            }
+            
+            .topic-grid {
+                padding: var(--space-md);
+            }
+            
+            .header {
+                padding: var(--space-xl);
+            }
+            
+            .header h1 {
+                font-size: 1.75rem;
+            }
+        }
+        
+        /* Dark Mode Styles for Book Browser */
+        [data-theme="dark"] {
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --text-light: #64748b;
+            
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --bg-glass: rgba(15, 23, 42, 0.8);
+            
+            --border-light: #334155;
+            --border-medium: #475569;
+            --border-dark: #64748b;
+        }
+        
+        [data-theme="dark"] body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+        }
+        
+        [data-theme="dark"] .container {
+            background: var(--bg-glass);
+            border-color: var(--border-light);
+        }
+        
+        [data-theme="dark"] .header {
+            background: linear-gradient(135deg, #1e293b, #334155);
+        }
+        
+        [data-theme="dark"] .topic-card {
+            background: var(--bg-primary);
+            border-color: var(--border-light);
+        }
+        
+        [data-theme="dark"] .stat-item {
+            background: var(--bg-secondary);
+            border-color: var(--border-light);
+        }
+        
+        [data-theme="dark"] .excerpt-preview {
+            background: var(--bg-secondary);
+            border-color: var(--border-light);
+        }
+        
+        [data-theme="dark"] .footer {
+            background: var(--bg-secondary);
+            border-color: var(--border-light);
+        }
+        
+        /* Dark Mode Toggle for Book Browser */
+        .theme-toggle {
+            position: fixed;
+            top: var(--space-xl);
+            right: var(--space-xl);
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-xl);
+            padding: var(--space-md);
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            box-shadow: var(--shadow-lg);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--primary-light);
+        }
+        
+        .theme-toggle i {
+            font-size: 1.1rem;
+            transition: transform var(--transition-normal);
+        }
+        
+        .theme-toggle:hover i {
+            transform: rotate(180deg);
+        }
+        
+        @media (max-width: 768px) {
+            .theme-toggle {
+                top: var(--space-lg);
+                right: var(--space-lg);
+                padding: var(--space-sm);
+                font-size: 0.8rem;
+            }
+            
+            .theme-toggle span {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Dark Mode Toggle -->
+    <div class="theme-toggle" onclick="toggleTheme()">
+        <i class="fas fa-moon"></i>
+        <span>Dark Mode</span>
+    </div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>📚 PM Standards Book Browser</h1>
+            <p>Organized by Topics - Click to explore similar and different texts from all books</p>
+        </div>
+        
+        <div id="content">
+            <div class="loading">Loading book analysis data...</div>
+        </div>
+        
+        <div class="footer">
+            <p>Built from: ISO 21500, ISO 21502, PRINCE2, and PMBOK Guide</p>
+            <p>Organize similar topics/chapters and explore different perspectives</p>
+        </div>
+    </div>
+
+    <script>
+        let bookData = null;
+        
+        // Topic display names
+        const topicNames = {
+            'risk_management': 'Risk Management',
+            'stakeholder_management': 'Stakeholder Management', 
+            'quality_management': 'Quality Management',
+            'scope_management': 'Scope Management',
+            'time_management': 'Time Management',
+            'cost_management': 'Cost Management',
+            'project_lifecycle': 'Project Lifecycle',
+            'team_management': 'Team Management',
+            'change_management': 'Change Management'
+        };
+        
+        async function loadBookData() {
+            try {
+                const response = await fetch('book_analysis_results.json');
+                if (!response.ok) {
+                    throw new Error('Failed to load book data');
+                }
+                
+                bookData = await response.json();
+                displayTopics();
+                
+            } catch (error) {
+                console.error('Error loading book data:', error);
+                document.getElementById('content').innerHTML = `
+                    <div class="error">
+                        <h3>Error Loading Data</h3>
+                        <p>Could not load book analysis results. Please ensure book_analysis_results.json exists.</p>
+                        <p>Run: python book_analyzer.py</p>
+                    </div>
+                `;
+            }
+        }
+        
+        function displayTopics() {
+            if (!bookData || !bookData.topics_database) {
+                document.getElementById('content').innerHTML = '<div class="error">Wrong data format</div>';
+                return;
+            }
+            
+            const contentDiv = document.getElementById('content');
+            const topicsHtml = document.createElement('div');
+            topicsHtml.className = 'topic-grid';
+            
+            Object.entries(bookData.topics_database).forEach(([topicKey, topicData]) => {
+                const topicCard = createTopicCard(topicKey, topicData);
+                topicsHtml.appendChild(topicCard);
+            });
+            
+            contentDiv.innerHTML = '';
+            contentDiv.appendChild(topicsHtml);
+        }
+        
+        function createTopicCard(topicKey, topicData) {
+            const card = document.createElement('div');
+            card.className = 'topic-card';
+            card.onclick = () => showTopicDetails(topicKey, topicData);
+            
+            const displayName = topicNames[topicKey] || topicData.topic_title || topicKey;
+            
+            // Get preview excerpt (first excerpt)
+            const firstExcerpt = topicData.similar_texts && topicData.similar_texts.length > 0 
+                ? topicData.similar_texts[0] 
+                : null;
+            
+            // Get book names
+            const bookNames = Object.keys(topicData.books || {});
+            
+            card.innerHTML = `
+                <h3>${displayName}</h3>
+                <div class="topic-summary">${topicData.summary || 'Click to explore this topic across all books'}</div>
+                
+                <div class="topic-stats">
+                    <span class="stat-item">📖 ${bookNames.length} Books</span>
+                    <span class="stat-item">📄 ${topicData.total_excerpts || 0} Excerpts</span>
+                </div>
+                
+                ${bookNames.length > 0 ? `
+                    <div class="books-list">
+                        ${bookNames.map(bookName => `
+                            <span class="book-tag">${cleanBookName(bookName)}</span>
+                        `).join('')}
+                    </div>
+                ` : ''}
+                
+                ${firstExcerpt ? `
+                    <div class="excerpt-preview">
+                        <div class="excerpt-text">${firstExcerpt.excerpt || 'No preview available'}</div>
+                        <div class="excerpt-source">From: ${cleanBookName(firstExcerpt.source_book || 'Unknown')}</div>
+                    </div>
+                ` : ''}
+                
+                <a href="/topic/${topicKey}" class="view-all-link" onclick="event.stopPropagation(); window.open('/topic/${topicKey}', '_blank'); return false;">View All Texts for This Topic</a>
+            `;
+            
+            return card;
+        }
+        
+        function cleanBookName(bookName) {
+            // Clean up book names for display
+            return bookName
+                .replace(/ISO \d+:/g, '')
+                .replace(/Project. programme and portfolio management[^\-]*\- /g, '')
+                .replace(/Project.Management.Institute.A.Guide.to.the.Project.Management.Body.of.Knowledge./g, 'PMBOK ')
+                .replace(/Managing.Successful.Projects.with./g, 'PRINCE2 ')
+                .replace(/\s+/g, ' ')
+                .trim()
+                .substring(0, 30) + (bookName.length > 30 ? '...' : '');
+        }
+        
+        function showTopicDetails(topicKey, topicData) {
+            // Create detailed view for the topic
+            const displayName = topicNames[topicKey] || topicData.topic_title || topicKey;
+            
+            let detailsHtml = `
+                <div style="padding: 30px;">
+                    <h2>📚 ${displayName}</h2>
+                    <p style="color: #7f8c8d; margin-bottom: 30px;">${topicData.summary}</p>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap: 25px;">
+            `;
+            
+            // Show similar texts in one section
+            if (topicData.similar_texts && topicData.similar_texts.length > 0) {
+                detailsHtml += `
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px;">
+                        <h3 style="color: #27ae60; margin-top: 0;">🔄 Similar Texts</h3>
+                        <p style="color: #7f8c8d; margin-bottom: 20px;">These excerpts discuss similar concepts across different books:</p>
+                        ${topicData.similar_texts.slice(0, 3).map(excerpt => `
+                            <div style="background: white; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #27ae60;">
+                                <div style="font-size: 0.9em; color: #555; margin-bottom: 8px;">
+                                    ${excerpt.excerpt ? excerpt.excerpt.substring(0, 200) + '...' : 'No excerpt available'}
+                                </div>
+                                <div style="font-size: 0.8em; color: #2980b9; font-weight: 500;">
+                                    📖 ${cleanBookName(excerpt.source_book)} → ${excerpt.chapter_title || 'Chapter'}
+                                </div>
+                                <div style="font-size: 0.75em; color: #95a5a6; margin-top: 5px;">
+                                    Relevance: ${excerpt.relevance_score || 0}/10 | Keywords: ${excerpt.keywords_found ? excerpt.keywords_found.join(', ') : 'None'}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            
+            // Show different texts in another section
+            if (topicData.books) {
+                detailsHtml += `
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px;">
+                        <h3 style="color: #e74c3c; margin-top: 0;">📖 Different Perspectives by Book</h3>
+                        <p style="color: #7f8c8d; margin-bottom: 20px;">How each book approaches this topic differently:</p>
+                        ${Object.entries(topicData.books).map(([bookName, bookData]) => `
+                            <div style="background: white; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #e74c3c;">
+                                <h4 style="margin: 0 0 10px 0; color: #2c3e50;">${cleanBookName(bookName)}</h4>
+                                <p style="font-size: 0.9em; color: #7f8c8d; margin-bottom: 10px;">
+                                    ${bookData.chapter_count} chapters covering this topic
+                                </p>
+                                ${bookData.excerpts && bookData.excerpts.length > 0 ? `
+                                    <div style="font-size: 0.85em; color: #555; font-style: italic;">
+                                        From: "${bookData.excerpts[0].chapter_title || 'Unknown Chapter'}"
+                                    </div>
+                                ` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            
+            detailsHtml += `
+                    </div>
+                    <div style="text-align: center; margin-top: 30px;">
+                        <button onclick="location.reload()" style="padding: 12px 25px; background: #3498db; color: white; border: none; border-radius: 25px; cursor: pointer;">
+                            ← Back to All Topics
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('content').innerHTML = detailsHtml;
+        }
+        
+        // Dark Mode Functions
+        function initializeDarkMode() {
+            const darkMode = localStorage.getItem('darkMode') === 'true';
+            if (darkMode) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                updateThemeToggleIcon(true);
+            }
+        }
+        
+        function toggleTheme() {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            
+            if (isDark) {
+                document.documentElement.removeAttribute('data-theme');
+                localStorage.setItem('darkMode', 'false');
+                updateThemeToggleIcon(false);
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('darkMode', 'true');
+                updateThemeToggleIcon(true);
+            }
+        }
+        
+        function updateThemeToggleIcon(isDark) {
+            const toggle = document.querySelector('.theme-toggle');
+            if (toggle) {
+                const icon = toggle.querySelector('i');
+                const text = toggle.querySelector('span');
+                
+                if (isDark) {
+                    icon.className = 'fas fa-sun';
+                    text.textContent = 'Light Mode';
+                } else {
+                    icon.className = 'fas fa-moon';
+                    text.textContent = 'Dark Mode';
+                }
+            }
+        }
+        
+        // Load data when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadBookData();
+            initializeDarkMode();
+        });
+    </script>
+</body>
+</html>

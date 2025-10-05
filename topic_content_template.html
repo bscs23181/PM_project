@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Topic: {TOPIC_NAME} - Text Comparison</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        
+        .header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        
+        .navigation {
+            background: #f8f9fa;
+            padding: 20px 30px;
+            border-bottom: 1px solid #ecf0f1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .back-button {
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: background 0.3s ease;
+        }
+        
+        .back-button:hover {
+            background: #2980b9;
+        }
+        
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            padding: 30px;
+        }
+        
+        .book-column {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            border-left: 5px solid #3498db;
+            min-height: 400px;
+        }
+        
+        .book-title {
+            font-size: 1.4em;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        .excerpt-block {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .chapter-title {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #2980b9;
+            margin-bottom: 10px;
+        }
+        
+        .excerpt-text {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .excerpt-meta {
+            font-size: 0.85em;
+            color: #95a5a6;
+            border-top: 1px solid #ecf0f1;
+            padding-top: 10px;
+        }
+        
+        .no-content {
+            color: #7f8c8d;
+            font-style: italic;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .relevance-score {
+            background: #e8f5e8;
+            color: #27ae60;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 500;
+        }
+        
+        .keywords {
+            background: #fff3cd;
+            color: #856404;
+            padding: 2px 6px;
+            border-radius: 8px;
+            font-size: 0.75em;
+            margin: 2px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 Topic: {TOPIC_NAME}</h1>
+            <p>Compare how different project management standards handle this topic</p>
+        </div>
+        
+        <div class="navigation">
+            <a href="/books" class="back-button">← Back to All Topics</a>
+            <a href="/" class="back-button">🏠 Main Hub</a>
+        </div>
+        
+        <div class="books-grid" id="booksGrid">
+            <div class="no-content">Loading topic content...</div>
+        </div>
+    </div>
+
+    <script>
+        // Topic-specific configuration
+        const topicData = {TOPIC_DATA};
+        const topicName = '{TOPIC_NAME}';
+        
+        function renderBookColumns() {
+            const booksGrid = document.getElementById('booksGrid');
+            
+            if (!topicData || !topicData.topics_database || !topicData.topics_database[topicName.toLowerCase().replace(' ', '_')]) {
+                booksGrid.innerHTML = '<div class="no-content">No content found for this topic</div>';
+                return;
+            }
+            
+            const topicInfo = topicData.topics_database[topicName.toLowerCase().replace(' ', '_')];
+            
+            let gridHtml = '';
+            
+            // For each book, create a column
+            Object.entries(topicInfo.books).forEach(([bookName, bookData]) => {
+                const cleanBookName = cleanBookNameForDisplay(bookName);
+                
+                gridHtml += `
+                    <div class="book-column">
+                        <div class="book-title">${cleanBookName}</div>
+                        ${bookData.excerpts && bookData.excerpts.length > 0 ? 
+                            bookData.excerpts.map(excerpt => `
+                                <div class="excerpt-block">
+                                    <div class="chapter-title">${excerpt.chapter_title || 'Chapter Content'}</div>
+                                    <div class="excerpt-text">${excerpt.excerpt || 'No excerpt available'}</div>
+                                    <div class="excerpt-meta">
+                                        ${excerpt.relevance_score ? `<span class="relevance-score">Relevance: ${excerpt.relevance_score}/10</span>` : ''}
+                                        ${excerpt.keywords_found && excerpt.keywords_found.length > 0 ? `
+                                            <div style="margin-top: 8px;">
+                                                Keywords: ${excerpt.keywords_found.map(kw => `<span class="keywords">${kw}</span>`).join('')}
+                                            </div>
+                                        ` : ''}
+                                    </div>
+                                </div>
+                            `).join('') : 
+                            '<div class="no-content">No excerpts available for this book</div>'
+                        }
+                    </div>
+                `;
+            });
+            
+            booksGrid.innerHTML = gridHtml;
+        }
+        
+        function cleanBookNameForDisplay(bookName) {
+            return bookName
+                .replace(/ISO \d+:/g, '')
+                .replace(/Project. programme and portfolio management[^\-]*\- /g, 'ISO ')
+                .replace(/Project.Management.Institute.A.Guide.to.the.Project.Management.Body.of.Knowledge./g, 'PMBOK ')
+                .replace(/Managing.Successful.Projects.with./g, 'PRINCE2 ')
+                .replace(/\s+/g, ' ')
+                .trim()
+                .substring(0, 40) + (bookName.length > 40 ? '...' : '');
+        }
+        
+        // Render content when page loads
+        document.addEventListener('DOMContentLoaded', renderBookColumns);
+    </script>
+</body>
+</html>
